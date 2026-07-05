@@ -18,5 +18,12 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd ${{ secrets.DEPLOY_PATH }}
-            git pull origin master
+
+            # 如果不是 git 仓库，先克隆
+            if [ ! -d .git ]; then
+              git clone git@github.com:LinYuHC/AITestHub.git ${{ secrets.DEPLOY_PATH }}
+            else
+              git pull origin master
+            fi
+
             echo "部署完成于 $(date)"
