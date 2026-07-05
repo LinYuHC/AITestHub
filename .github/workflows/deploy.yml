@@ -2,7 +2,7 @@ name: Deploy to Linux Server
 
 on:
   push:
-    branches: [main]
+    branches: [master]
 
 jobs:
   deploy:
@@ -18,5 +18,5 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd ${{ secrets.DEPLOY_PATH }}
-            git pull origin main
+            git pull origin master
             echo "部署完成于 $(date)"
