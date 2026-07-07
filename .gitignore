@@ -13,6 +13,8 @@ __pycache__/
 # Logs
 logs/
 *.log
+# uploads
+uploads/
 
 # Environment
 .env
