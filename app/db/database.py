@@ -5,7 +5,7 @@ from sqlalchemy import URL
 from sqlalchemy.orm import sessionmaker,declarative_base
 
 # 导入数据库配置
-from core.config import settings
+from app.core.config import settings
 url_object = URL.create(
     drivername="mysql+pymysql",
     username=settings.MYSQL_USER,
