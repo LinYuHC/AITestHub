@@ -9,8 +9,8 @@ from sqlalchemy.sql import func
 # 导入模型基类
 from app.db.database import Base
 
-class Users(Base):
-    __tablename__ = 'users'
+class User(Base):
+    __tablename__ = 'user'
     __table_args__ = {'extend_existing': True}
     #   id：主键，自增
     #   Integer：整数类型

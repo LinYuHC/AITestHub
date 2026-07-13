@@ -12,7 +12,7 @@ def register_user(user:UserBase):
     注册账号Service
     :return:
     '''
-    db_user = Users(
+    db_user = User(
         username=user.username,
         password=user.password,
         email=user.email,
@@ -23,7 +23,7 @@ def register_user(user:UserBase):
     # 创建会话工厂对象
     db = SessionLocal()
     # 查询当前用户名是否被注册
-    select_user = db.query(Users).filter(Users.username==user.username).first()
+    select_user = db.query(User).filter(User.username==user.username).first()
     if select_user:
         print(f'用户名：{select_user.username} 已被注册')
         raise HTTPException(status_code=400, detail=f"用户名 {user.username} 已被注册")
@@ -36,4 +36,4 @@ def register_user(user:UserBase):
 
 
 if __name__ == '__main__':
-    register_user(UserBase(username="fhc3", password="123", email="tes@qq.cd"))
+    register_user(UserBase(username="fhc31", password="123", email="tes@qq.cd"))

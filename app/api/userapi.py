@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, APIRouter,status
-from app.models.user import Users
+from app.models.user import User
 from app.services import user_service
 from app.services.user_service import *
 from app.schemas.user_schemas import *
