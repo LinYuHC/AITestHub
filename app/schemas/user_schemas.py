@@ -11,3 +11,14 @@ class UserBase(BaseModel):
     email: Optional[EmailStr] = None
     sex: Optional[int] = None
     nickname: Optional[str] = None
+
+
+class UserOut(BaseModel):
+    username: str
+    phone: Optional[str] = None
+    email: Optional[EmailStr] = None
+    sex: Optional[int] = None
+    nickname: Optional[str] = None
+
+    class Config:
+        from_attributes = True

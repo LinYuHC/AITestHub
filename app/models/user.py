@@ -37,7 +37,7 @@ class User(Base):
     # 自定义方法
     def __repr__(self):
         """打印对象时的显示格式"""
-        return f"<User(id={self.id}, username={self.username}, pw={self.password}, phone={self.phone}, email={self.email})>"
+        return f"<User(id={self.id}, username={self.username}, phone={self.phone}, email={self.email})>"
 
 
 

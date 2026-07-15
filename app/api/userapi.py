@@ -7,8 +7,7 @@ from app.schemas.user_schemas import *
 
 router = APIRouter()
 @router.post("/auth/register",
-             response_model=UserBase,
-             status_code=status.HTTP_201_CREATED
+             response_model=ResponseModel[UserOut]
              )
 async def register_user(user:UserBase):
     return user_service.register_user(user)
