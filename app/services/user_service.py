@@ -24,17 +24,17 @@ def register_user(user:UserBase):
         nickname=user.nickname
     )
     # 创建会话工厂对象
-    # db = SessionLocal()
+    db = SessionLocal()
     # 查询当前用户名是否被注册
     # select_user = db.query(User).filter(User.username==user.username).first()
-    select_user = get_user_by_username(user.username)
+    select_user = get_user_by_username(db,user.username)
     if select_user:
         print(f'Username {select_user.username} has been registered')
         return ResponseModel(code=400, message=f"Username {select_user.username} has been registered")
     # 添加用户
     # db.add(db_user)
-    create_user(db_user)
-    get_refresh(db_user)
+    create_user(db,db_user)
+    get_refresh(db,db_user)
     # db.commit()
     # db.refresh(db_user)
     print('创建成功')
