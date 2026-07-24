@@ -1,20 +1,16 @@
 # 导入SQLAlchemy模型
-from fastapi import HTTPException
-
-from app.models import *
-from sqlalchemy.orm import sessionmaker
-from app.db.database import Base, SessionLocal
 from app.schemas.user_schemas import *
 from app.schemas.response import *
 from app.utils.md5tool import get_md5
 from app.repository.user_repository import *
-
+from app.core.logger_config import logger
 
 def register_user(user:UserBase):
-    '''
+    """
     注册账号Service
-    :return:
-    '''
+    :param user:
+    :return: 注册结果
+    """
     db_user = User(
         username=user.username,
         password=get_md5(user.password),
@@ -30,7 +26,9 @@ def register_user(user:UserBase):
     select_user = get_user_by_username(db,user.username)
     if select_user:
         print(f'Username {select_user.username} has been registered')
-        return ResponseModel(code=400, message=f"Username {select_user.username} has been registered")
+        res = ResponseModel(code=400, message=f"Username {select_user.username} has been registered")
+        logger.error(f'注册失败: {res}')
+        return res
     # 添加用户
     # db.add(db_user)
     create_user(db,db_user)
@@ -39,8 +37,10 @@ def register_user(user:UserBase):
     # db.refresh(db_user)
     print('创建成功')
     user_out = UserOut.model_validate(db_user)
-    return ResponseModel(data=user_out)
+    res = ResponseModel(data=user_out)
+    logger.info(f'创建成功: {res}')
+    return res
 
 
 if __name__ == '__main__':
-    register_user(UserBase(username="fhc51", password="123", email="tes@qq.cd"))
+    register_user(UserBase(username="fhc51aa1", password="123", email="tes@qq.cd"))
