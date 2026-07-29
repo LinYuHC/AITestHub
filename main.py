@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 # 导入路由
-from app.api.userapi import router as user_api_router
+from app.modules.user.api import router as user_api_router
 
 app = FastAPI()
 app.include_router(user_api_router, prefix="/api/v1")

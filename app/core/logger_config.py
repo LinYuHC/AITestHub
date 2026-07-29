@@ -1,8 +1,8 @@
-import logging
 from pathlib import Path
 # 导入配置文件
 from app.core.config import settings
 import logging
+from datetime import datetime
 
 # 获取当前config.py所在目录
 # config_dir = Path(__file__)
@@ -15,7 +15,7 @@ LOG_DIR.mkdir(parents=True, exist_ok=True)
 # ---------------# logging.basicConfig----------------------
 logging.basicConfig(
     level=logging.ERROR,    #级别
-    filename=f"{LOG_DIR}/logger.log",  #日志存放路径
+    filename=f"{LOG_DIR}/{datetime.today().strftime('%Y-%m-%d')}.log",  #日志存放路径
     filemode="a",           #写日志模式
     format="%(asctime)s [%(lineno)d] %(message)s %(filename)s",   #格式
 
@@ -108,4 +108,6 @@ logger.addHandler(console_handler)
 # logger.critical('这是一条CRITICAL级别的消息')  # 同上
 """
 # if __name__ == '__main__':
-#     print(Path(__file__).parent.parent.parent)
+#
+#
+#     print()
