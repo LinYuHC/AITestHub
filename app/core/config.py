@@ -18,6 +18,7 @@ class Settings(BaseSettings):
     LOG_PATH: str
     LOG_LEVEL: str
 
+
     # 配置文件路径
     # PROJECT_ROOT.joinpath(".env")表示在项目根目录下获取.env文件，用于存储环境变量。
     model_config = SettingsConfigDict(
