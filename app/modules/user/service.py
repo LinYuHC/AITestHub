@@ -28,8 +28,10 @@ def register_user(user:UserBase):
     # select_user = db.query(User).filter(User.username==user.username).first()
     select_user = get_user_by_username(db,user.username)
     if select_user:
-        print(f'Username {select_user.username} has been registered')
-        res = ResponseModel(code=400, message=f"Username {select_user.username} has been registered")
+        res = ResponseModel(
+            code=400,
+            message=f"Username {select_user.username} has been registered"
+        )
         logger.error(f'注册失败: {res}')
         return res
     # 添加用户
@@ -38,9 +40,10 @@ def register_user(user:UserBase):
     get_refresh(db,db_user)
     # db.commit()
     # db.refresh(db_user)
-    print('创建成功')
     user_out = UserOut.model_validate(db_user)
-    res = ResponseModel(data=user_out)
+    res = ResponseModel(
+        data=user_out
+    )
     logger.info(f'创建成功: {res}')
     return res
 

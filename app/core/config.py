@@ -17,6 +17,11 @@ class Settings(BaseSettings):
     # 日志配置
     LOG_PATH: str
     LOG_LEVEL: str
+    # minIO配置
+    MINIO_ENDPOINT: str
+    MINIO_ACCESS_KEY: str
+    MINIO_SECRET_KEY: str
+    UPLOAD_BUCKET_NAME: str
 
 
     # 配置文件路径
