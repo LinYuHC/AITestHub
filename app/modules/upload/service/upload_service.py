@@ -1,12 +1,12 @@
 import shutil
 from pathlib import Path
 from fastapi import FastAPI, File, HTTPException, UploadFile
-from fastapi.staticfiles import StaticFiles
+from app.core.config import settings
 
 def upload_file(file: UploadFile):
     # 1. 定义项目根目录及上传目录
-    BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent.parent
-    UPLOAD_DIR = BASE_DIR / "uploads"
+    BASE_DIR = Path(__file__).resolve().parents[3]
+    UPLOAD_DIR = BASE_DIR / settings.UPLOAD_PATH
 
     # 确保 uploads 文件夹存在，不存在则自动创建
     UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
@@ -49,23 +49,24 @@ def upload_file(file: UploadFile):
 if __name__ == '__main__':
     from fastapi import FastAPI
 
-    testapp = FastAPI()
-
-
-    @testapp.post(path="/upload")
-    async def test_route(files: UploadFile = File(...)):  # 修改点1：换个名字，防止覆盖上面的核心业务函数
-        return upload_file(files)  # 修改点2：这里现在能正确调用到你最上面的 upload_file 函数了
-
-
-    from fastapi.testclient import TestClient
-
-    client = TestClient(testapp)
-
-    test_image_path = r"C:\Users\Administrator\Pictures\test.png"
-
-    # 4. 模拟发送 POST 请求上传文件
-    with open(test_image_path, "rb") as f:
-        response = client.post(
-            "/upload", files={"files": ("test.png", f, "image/jpeg")}
-        )
-        print("测试结果响应：", response.json())
+    BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent.parent
+    # testapp = FastAPI()
+    #
+    #
+    # @testapp.post(path="/upload")
+    # async def test_route(files: UploadFile = File(...)):  # 修改点1：换个名字，防止覆盖上面的核心业务函数
+    #     return upload_file(files)  # 修改点2：这里现在能正确调用到你最上面的 upload_file 函数了
+    #
+    #
+    # from fastapi.testclient import TestClient
+    #
+    # client = TestClient(testapp)
+    #
+    # test_image_path = r"C:\Users\Administrator\Pictures\test.png"
+    #
+    # # 4. 模拟发送 POST 请求上传文件
+    # with open(test_image_path, "rb") as f:
+    #     response = client.post(
+    #         "/upload", files={"files": ("test.png", f, "image/jpeg")}
+    #     )
+    #     print("测试结果响应：", response.json())
