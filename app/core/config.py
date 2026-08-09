@@ -19,6 +19,12 @@ class Settings(BaseSettings):
     LOG_LEVEL: str
     # 图片存储路径
     UPLOAD_PATH: str
+    UPLOAD_BUCKET_NAME: str
+    # minIO配置
+    MINIO_ENDPOINT: str
+    MINIO_ACCESS_KEY: str
+    MINIO_SECRET_KEY: str
+    UPLOAD_BUCKET_NAME: str
 
     # 配置文件路径
     # PROJECT_ROOT.joinpath(".env")表示在项目根目录下获取.env文件，用于存储环境变量。
