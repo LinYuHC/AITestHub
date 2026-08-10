@@ -2,6 +2,9 @@ from fastapi import FastAPI
 # 导入路由
 from app.modules.user.api import router as user_api_router
 from app.modules.upload.api.upload_api import router as upload_api_router
+from app.modules.posts.api.posts_api import router as posts_api_router
+# 导入表注册
+import app.db.base
 app = FastAPI()
 
 # from fastapi.staticfiles import StaticFiles
@@ -15,6 +18,7 @@ app = FastAPI()
 
 app.include_router(user_api_router, prefix="/api/v1")
 app.include_router(upload_api_router, prefix="/api/v1")
+app.include_router(posts_api_router, prefix="/api/v1")
 @app.get("/")
 async def root():
     return {"message": "testSuccess"}
