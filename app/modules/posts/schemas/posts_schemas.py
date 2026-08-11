@@ -5,7 +5,7 @@ class PostBase(BaseModel):
     title: str
     summary: str
     content: str
-    status: int=1   # 默认1：已发布
+    status: int=2   # 默认2，1：已发布2：草稿
     category_id: int | None = None
     author_id: int | None = None
     cover_image: str | None = None
