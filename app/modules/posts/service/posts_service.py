@@ -21,7 +21,7 @@ def create_posts_service(db: Session,post: PostBase) -> Post:
     # db.add(db_posts)
     # db.commit()
     # db.refresh(db_posts)
-    return posts_repository.create_posts_service(db, db_posts)
+    return posts_repository.create_posts_repository(db, db_posts)
 
 if __name__ == '__main__':
     # 1. 构造一个测试用的 Pydantic Schema 参数对象

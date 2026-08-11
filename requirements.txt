@@ -5,7 +5,6 @@ pydantic-settings==2.14.2
 sqlalchemy
 pymysql
 cryptography
-myapplication
 pydantic
 redis==8.0.1
 passlib==1.7.4
