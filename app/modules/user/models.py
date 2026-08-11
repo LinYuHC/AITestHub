@@ -22,17 +22,17 @@ class User(Base):
     #   String(50)：最大长度 20 的字符串
     #   unique=True：唯一约束，不能重复
     #   nullable=False：不允许为空
-    username = Column(String(20), nullable=False, unique=True)
+    username = Column(String(255), nullable=False, unique=True)
     # 密码
-    password = Column(String(20), nullable=False)
+    password = Column(String(255), nullable=False)
     # 手机号
-    phone = Column(String(20), nullable=True)
+    phone = Column(String(255), nullable=True)
     # 邮箱
-    email = Column(String(20), nullable=True)
+    email = Column(String(255), nullable=True)
     # 性别0未知1男2女
     sex = Column(Integer, nullable=True)
     # 昵称
-    nickname = Column(String(20), nullable=True)
+    nickname = Column(String(255), nullable=True)
 
     # 自定义方法
     def __repr__(self):

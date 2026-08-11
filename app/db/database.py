@@ -3,6 +3,8 @@ from sqlalchemy import create_engine
 from sqlalchemy import URL
 # 导入会话工厂
 from sqlalchemy.orm import sessionmaker,declarative_base
+# 导入日志
+from app.core.logger_config import logger
 
 # 导入数据库配置
 from app.core.config import settings
@@ -72,6 +74,7 @@ def get_db():
     """
     # 创建一个新的数据库会话
     db = SessionLocal()
+    logger.info("数据库会话已创建", extra={"session_id": id(db)})
     try:
         # yield 返回会话给路由函数使用
         yield db
@@ -79,3 +82,4 @@ def get_db():
         # 无论路由函数是否报错，最后都会执行这里关闭会话
         # 避免连接泄漏
         db.close()
+        logger.info("数据库会话已关闭", extra={"session_id": id(db)})

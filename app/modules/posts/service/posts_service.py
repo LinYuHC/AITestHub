@@ -1,8 +1,7 @@
 from sqlalchemy.orm import Session
 from app.modules.posts.models.posts import Post
 from app.modules.posts.schemas.posts_schemas import PostBase
-# from app.modules.user.models import User
-# from app.modules.posts.models.categories import Category
+from app.modules.posts.repository import posts_repository
 
 def create_posts_service(db: Session,post: PostBase) -> Post:
     # 需要传参的数据模型
@@ -18,15 +17,11 @@ def create_posts_service(db: Session,post: PostBase) -> Post:
         is_top=post.is_top
     )
 
-    # 创建会话工厂
-    # db = SessionLocal()
     # 创建博客
-    db.add(db_posts)
-    db.commit()
-    db.refresh(db_posts)
-    # 关闭连接
-    # db.close()
-    return db_posts
+    # db.add(db_posts)
+    # db.commit()
+    # db.refresh(db_posts)
+    return posts_repository.create_posts_service(db, db_posts)
 
 if __name__ == '__main__':
     # 1. 构造一个测试用的 Pydantic Schema 参数对象

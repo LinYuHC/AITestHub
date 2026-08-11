@@ -9,5 +9,5 @@ from app.modules.posts.service import posts_service
 router = APIRouter()
 
 @router.post("/posts")
-async def create_post(post: PostBase,db:Session = Depends(get_db)):
+def create_post(post: PostBase,db:Session = Depends(get_db)):
     return posts_service.create_posts_service(db,post)

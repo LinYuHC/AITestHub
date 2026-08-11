@@ -8,6 +8,6 @@ router = APIRouter()
 @router.post(
     "/auth/upload",
     response_model=ResponseModel[UploadData])
-async def upload_file(file: UploadFile = File(...)):
+def upload_file(file: UploadFile = File(...)):
     return upload_service.upload_file(file)
 
