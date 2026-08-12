@@ -17,11 +17,7 @@ def create_posts_service(db: Session,post: PostBase) -> Post:
         is_top=post.is_top
     )
 
-    # 创建博客
-    # db.add(db_posts)
-    # db.commit()
-    # db.refresh(db_posts)
-    return posts_repository.create_posts_repository(db, db_posts)
+    return posts_repository.create_posts(db, db_posts)
 
 if __name__ == '__main__':
     # 1. 构造一个测试用的 Pydantic Schema 参数对象
