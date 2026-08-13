@@ -11,3 +11,11 @@ class ResponseModel(BaseModel, Generic[T]):
 
     class Config:
         from_attributes = True  # 支持 ORM 对象自动转换
+
+class ResponseError(BaseModel):
+    code: int = 500
+    message: str = "error"
+    data: Optional[Any] = None
+
+    class Config:
+        from_attributes = True  # 支持 ORM 对象自动转换

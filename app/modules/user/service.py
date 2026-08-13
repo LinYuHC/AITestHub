@@ -2,7 +2,8 @@
 from sqlalchemy.orm import Session
 from app.modules.user.schemas import UserBase,UserOut
 from app.schemas.response import ResponseModel
-from app.utils.md5tool import get_md5
+# Argon2id加密
+from app.utils.argon2id_tool import hash_password
 from app.modules.user.repository import get_user_by_username,create_user,get_refresh
 from app.core.logger_config import logger
 from app.modules.user import User
@@ -16,7 +17,7 @@ def register_user(db: Session, user:UserBase):
     """
     db_user = User(
         username=user.username,
-        password=get_md5(user.password),
+        password=hash_password(user.password),
         email=user.email,
         phone=user.phone,
         sex=user.sex,

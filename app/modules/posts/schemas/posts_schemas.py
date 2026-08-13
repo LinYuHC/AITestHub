@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
+
 
 # 基础模型（存放公共字段）
 class PostBase(BaseModel):
@@ -11,3 +12,7 @@ class PostBase(BaseModel):
     cover_image: str | None = None
     allow_comment: bool = True
     is_top: bool = False
+
+    # model_config = ConfigDict(arbitrary_types_allowed=True)
+    class Config:
+        from_attributes = True
