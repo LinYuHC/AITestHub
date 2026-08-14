@@ -6,7 +6,7 @@ from app.modules.user.models import User
 # db = SessionLocal()
 def get_user_by_username(db:Session,username:str):
     '''
-
+    根据用户名获取用户
     :param db:
     :param username:
     :return:

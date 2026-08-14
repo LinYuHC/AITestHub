@@ -1,12 +1,13 @@
 # 导入SQLAlchemy模型
 from sqlalchemy.orm import Session
 from app.modules.user.schemas import UserBase,UserOut
-from app.schemas.response import ResponseModel
+from app.schemas.response import ResponseModel,ResponseError
 # Argon2id加密
-from app.utils.argon2id_tool import hash_password
+from app.utils.argon2id_tool import hash_password, verify_password
 from app.modules.user.repository import get_user_by_username,create_user,get_refresh
 from app.core.logger_config import logger
 from app.modules.user import User
+from app.utils.pyjwt_tool import generate_token
 
 def register_user(db: Session, user:UserBase):
     """
@@ -33,11 +34,8 @@ def register_user(db: Session, user:UserBase):
         logger.error(f'注册失败: {res}')
         return res
     # 添加用户
-    # db.add(db_user)
     create_user(db,db_user)
     get_refresh(db,db_user)
-    # db.commit()
-    # db.refresh(db_user)
     user_out = UserOut.model_validate(db_user)
     res = ResponseModel(
         data=user_out
@@ -45,6 +43,37 @@ def register_user(db: Session, user:UserBase):
     logger.info(f'创建成功: {res}')
     return res
 
+def login_user(db: Session, username: str, password: str):
+    """
+    登录账号Service
+    :param db: 数据库会话
+    :param username: 用户名
+    :param password: 密码
+    :return: 登录结果
+    """
+    db_user = get_user_by_username(db, username)
+    if db_user is not None:
+        if verify_password(db_user.password, password):
+            print(f'id=={db_user.id}')
+            # 生成令牌
+            token = generate_token({"user_id": db_user.id})
+            return ResponseModel(data={
+                "access_token": token,
+                "token_type": "bearer",
+                "user_info": db_user})
+        else:
+            return ResponseError(message="Password is incorrect")
+    else:
+        return ResponseError(message="User not found")
+
+def logout_user(db: Session, user_id: int):
+    """
+    登出账号Service
+    :param db: 数据库会话
+    :param user_id: 用户ID
+    :return: 登出结果
+    """
+    pass
 
 if __name__ == '__main__':
     register_user(UserBase(username="fhc51aa1", password="123", email="tes@qq.cd"))
