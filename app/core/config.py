@@ -25,6 +25,15 @@ class Settings(BaseSettings):
     MINIO_ACCESS_KEY: str
     MINIO_SECRET_KEY: str
     UPLOAD_BUCKET_NAME: str
+    # JWT配置
+    JWT_SECRET_KEY: str
+    JWT_ALGORITHM: str
+    JWT_EXPIRE_MINUTES: int
+    # Redis配置
+    REDIS_HOST: str
+    REDIS_PORT: int
+    REDIS_PASSWORD: str
+    REDIS_DATABASE: int
 
     # 配置文件路径
     # PROJECT_ROOT.joinpath(".env")表示在项目根目录下获取.env文件，用于存储环境变量。

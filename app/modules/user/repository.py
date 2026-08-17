@@ -12,6 +12,14 @@ def get_user_by_username(db:Session,username:str):
     :return:
     '''
     return db.query(User).filter(User.username == username).first()
+def get_user_by_id(db:Session,id:int):
+    '''
+    根据用户ID获取用户
+    :param db:
+    :param id:
+    :return:
+    '''
+    return db.query(User).filter(User.id == id).first()
 def create_user(db:Session, user:User):
     '''
     创建用户

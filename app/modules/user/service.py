@@ -8,6 +8,8 @@ from app.modules.user.repository import get_user_by_username,create_user,get_ref
 from app.core.logger_config import logger
 from app.modules.user import User
 from app.utils.pyjwt_tool import generate_token
+from app.db.redis_db import get_redis
+from app.core.config import settings
 
 def register_user(db: Session, user:UserBase):
     """
@@ -56,11 +58,17 @@ def login_user(db: Session, username: str, password: str):
         if verify_password(db_user.password, password):
             print(f'id=={db_user.id}')
             # 生成令牌
-            token = generate_token({"user_id": db_user.id})
-            return ResponseModel(data={
+            token, jti = generate_token({"user_id": db_user.id})
+            # 设置redis过期时间
+            expire_seconds = settings.JWT_EXPIRE_MINUTES * 60
+            # 令牌存入redis
+            get_redis().set(f"user:token:{jti}", token, ex=expire_seconds)
+            return ResponseModel(
+                data={
                 "access_token": token,
                 "token_type": "bearer",
-                "user_info": db_user})
+                "user_info": db_user}
+            )
         else:
             return ResponseError(message="Password is incorrect")
     else:
@@ -75,5 +83,3 @@ def logout_user(db: Session, user_id: int):
     """
     pass
 
-if __name__ == '__main__':
-    register_user(UserBase(username="fhc51aa1", password="123", email="tes@qq.cd"))
