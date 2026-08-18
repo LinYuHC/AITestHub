@@ -54,9 +54,9 @@ def login_user(db: Session, username: str, password: str):
     :return: 登录结果
     """
     db_user = get_user_by_username(db, username)
+    print(f'db_user======={db_user}')
     if db_user is not None:
         if verify_password(db_user.password, password):
-            print(f'id=={db_user.id}')
             # 生成令牌
             token, jti = generate_token({"user_id": db_user.id})
             # 设置redis过期时间
@@ -70,9 +70,9 @@ def login_user(db: Session, username: str, password: str):
                 "user_info": db_user}
             )
         else:
-            return ResponseError(message="Password is incorrect")
+            return ResponseError(message="User Or Password is incorrect")
     else:
-        return ResponseError(message="User not found")
+        return ResponseError(message="User Or Password is incorrect")
 
 def logout_user(db: Session, user_id: int):
     """

@@ -3,8 +3,9 @@ from app.modules.posts.models.posts import Post
 from app.modules.posts.schemas.posts_schemas import PostBase
 from app.modules.posts.repository import posts_repository
 from app.schemas.response import ResponseModel
+from app.modules.user.models import User
 
-def create_posts_service(db: Session,post: PostBase):
+def create_posts_service(db: Session,post: PostBase, author_id):
     # 需要传参的数据模型
     db_posts = Post(
         title=post.title,
@@ -12,7 +13,7 @@ def create_posts_service(db: Session,post: PostBase):
         content=post.content,
         status=post.status,
         category_id=post.category_id,
-        author_id=post.author_id,
+        author_id=author_id,
         cover_image=post.cover_image,
         allow_comment=post.allow_comment,
         is_top=post.is_top
