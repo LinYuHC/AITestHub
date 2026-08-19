@@ -16,3 +16,28 @@ class PostBase(BaseModel):
     # model_config = ConfigDict(arbitrary_types_allowed=True)
     class Config:
         from_attributes = True
+
+class PostsListOut(BaseModel):
+    '''
+    博客列表返回模型
+    '''
+    id: int
+    title: str
+    summary: str
+    content: str
+    views_count: int
+    category_id: int
+    cover_image: str | None = None
+    author_id: int
+
+    class Config:
+        from_attributes = True
+
+class PostsListData(BaseModel):
+    '''
+    博客列表数据模型
+    '''
+    total: int
+    list: list[PostsListOut]
+    class Config:
+        from_attributes = True
