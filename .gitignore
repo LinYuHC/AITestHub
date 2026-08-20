@@ -24,3 +24,6 @@ uploads/
 
 # macOS
 .DS_Store
+
+# 测试代码
+TestCode
