@@ -1,3 +1,4 @@
+import datetime
 from pydantic import BaseModel, ConfigDict
 
 
@@ -17,6 +18,25 @@ class PostBase(BaseModel):
     class Config:
         from_attributes = True
 
+class PostsDetailsOut(BaseModel):
+    '''
+    博客详情返回模型
+    '''
+    id: int
+    title: str
+    summary: str
+    content: str
+    views_count: int
+    status: int
+    category_id: int
+    cover_image: str | None = None
+    allow_comment: bool = True
+    is_top: bool = False
+    author_id: int
+    created_at: datetime.datetime
+    updated_at: datetime.datetime
+    model_config = ConfigDict(from_attributes=True)
+
 class PostsListOut(BaseModel):
     '''
     博客列表返回模型
@@ -24,7 +44,6 @@ class PostsListOut(BaseModel):
     id: int
     title: str
     summary: str
-    content: str
     views_count: int
     category_id: int
     cover_image: str | None = None
@@ -35,9 +54,12 @@ class PostsListOut(BaseModel):
 
 class PostsListData(BaseModel):
     '''
-    博客列表数据模型
+    博客列表数据模型，包含分页信息
     '''
     total: int
-    list: list[PostsListOut]
+    page: int | None = None
+    page_size: int | None = None
+    items: list[PostsListOut]
+
     class Config:
-        from_attributes = True
+        orm_mode = True
