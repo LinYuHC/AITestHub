@@ -5,16 +5,23 @@ from app.modules.upload.api.upload_api import router as upload_api_router
 from app.modules.posts.api.posts_api import router as posts_api_router
 # 导入表注册
 import app.db.base
+# 导入CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
 
-# from fastapi.staticfiles import StaticFiles
-# from pathlib import Path
-# # ... 你原本的代码: app = FastAPI(title="AITestHub API") ...
-# # 1. 定位到你的 uploads 文件夹
-# BASE_DIR = Path(__file__).resolve().parent
-# UPLOAD_DIR = BASE_DIR / "uploads"
-# # 2. 【核心步骤】将 /static 请求映射到本地的 uploads 文件夹
-# app.mount("/static", StaticFiles(directory=str(UPLOAD_DIR)), name="static")
+# 添加CORS中间件
+app.add_middleware(
+    CORSMiddleware,
+# 当项目上线发布到真实服务器时，应将 allow_origins 里的 localhost:5173 替换为你前端上线的真实域名（如 [https://hub.example.com](https://hub.example.com)），避免接口被任意第三方恶意网页调用。
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(user_api_router, prefix="/api/v1")
 app.include_router(upload_api_router, prefix="/api/v1")
