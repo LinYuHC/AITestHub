@@ -1,49 +1,44 @@
 <script setup lang="ts">
-interface PostItem {
-  id: number
-  title: string
-  summary: string
-  category: string
-  viewsCount: number
-  createdAt: string
-}
+// import type {PostListItem} from './types/post'
+import BlogList from './views/BlogList.vue'
 
-const posts1: PostItem[] = [
-  {
-    id: 1,
-    title: 'FastAPI 博客后端开发记录',
-    summary: '记录 OpenHub 博客系统的接口设计、认证和数据库分层。',
-    category: 'FastAPI',
-    viewsCount: 128,
-    createdAt: '2026-08-20',
-  },
-  {
-    id: 2,
-    title: 'Vue 3 前端项目初始化',
-    summary: '从 Vite + Vue + TypeScript 开始搭建博客前端。',
-    category: 'Vue',
-    viewsCount: 76,
-    createdAt: '2026-08-20',
-  },
-]
+// const posts1: PostListItem[] = [
+//   {
+//     id: 1,
+//     title: 'FastAPI 博客后端开发记录',
+//     summary: '记录 OpenHub 博客系统的接口设计、认证和数据库分层。',
+//     category: 'FastAPI',
+//     views_count: 128,
+//     author_id: 1,
+//   },
+//   {
+//     id: 2,
+//     title: 'Vue 3 前端项目初始化',
+//     summary: '从 Vite + Vue + TypeScript 开始搭建博客前端。',
+//     category: 'Vue',
+//     views_count: 76,
+//     author_id: 1,
+//   },
+// ]
 </script>
 <template>
-  <main class="page">
-    <h1>OpenHub Blog</h1>
+   <BlogList />
+<!--  <main class="page">-->
+<!--    <h1>OpenHub Blog</h1>-->
 
-    <section class="post-list">
-      <article v-for="post in posts1" :key="post.id" class="post-card">
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.summary }}</p>
+<!--    <section class="post-list">-->
+<!--      <article v-for="post in posts1" :key="post.id" class="post-card">-->
+<!--        <h2>{{ post.title }}</h2>-->
+<!--        <p>摘要: {{ post.summary }}</p>-->
 
-        <div class="meta">
-          <span>{{ post.category }}</span>
-          <span>阅读 {{ post.viewsCount }}</span>
-          <span>{{ post.createdAt }}</span>
-        </div>
-      </article>
-    </section>
-  </main>
+<!--        <div class="meta">-->
+<!--          <span>类别: {{ post.category }}</span>-->
+<!--          <span>阅读: {{ post.views_count }}</span>-->
+<!--&lt;!&ndash;          <span>{{ post.createdAt }}</span>&ndash;&gt;-->
+<!--        </div>-->
+<!--      </article>-->
+<!--    </section>-->
+<!--  </main>-->
 </template>
 
 <style scoped>
