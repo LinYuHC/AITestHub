@@ -1,10 +1,10 @@
 # 导入SQLAlchemy模型
 from sqlalchemy.orm import Session
-from app.modules.user.schemas import UserBase,UserOut
+from app.modules.user.schemas import UserBase,UserOut,EditUser
 from app.schemas.response import ResponseModel,ResponseError
 # Argon2id加密
 from app.utils.argon2id_tool import hash_password, verify_password
-from app.modules.user.repository import get_user_by_username,create_user,get_refresh
+from app.modules.user.repository import get_user_by_username,create_user,get_refresh,update_user,get_user_by_id
 from app.core.logger_config import logger
 from app.modules.user import User
 from app.utils.pyjwt_tool import generate_token
@@ -18,14 +18,6 @@ def register_user(db: Session, user:UserBase):
     :param user: 用户信息
     :return: 注册结果
     """
-    db_user = User(
-        username=user.username,
-        password=hash_password(user.password),
-        email=user.email,
-        phone=user.phone,
-        sex=user.sex,
-        nickname=user.nickname
-    )
     # 查询当前用户名是否被注册
     select_user = get_user_by_username(db,user.username)
     if select_user:
@@ -35,6 +27,15 @@ def register_user(db: Session, user:UserBase):
         )
         logger.error(f'注册失败: {res}')
         return res
+
+    db_user = User(
+        username=user.username,
+        password=hash_password(user.password),
+        email=user.email,
+        phone=user.phone,
+        sex=user.sex,
+        nickname=user.nickname
+    )
     # 添加用户
     create_user(db,db_user)
     get_refresh(db,db_user)
@@ -83,3 +84,15 @@ def logout_user(db: Session, user_id: int):
     """
     pass
 
+def edit_user(db: Session, user_id: int, user: EditUser):
+    # 将 Pydantic 模型转换为字典，exclude_unset=True 确保只更新前端传了值的字段
+    user = user.model_dump(exclude_unset=True)
+    # 查询当前用户id是否存在
+    db_user = get_user_by_id(db, user_id)
+    if db_user is None:
+        return ResponseError(message="User not found")
+
+    db_user = update_user(db, user_id, user)
+    return ResponseModel(
+        data=db_user
+    )

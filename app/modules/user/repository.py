@@ -39,3 +39,15 @@ def get_refresh(db:Session,db_user):
     '''
     db.refresh(db_user)
     return db_user
+
+def update_user(db:Session,user_id: int,user:dict):
+    '''
+    更新用户
+    :param db: 数据库会话
+    :param user_id: 用户ID
+    :param user: 用户信息
+    :return: None
+    '''
+    db_user = db.query(User).filter(User.id == user_id).update(user)
+    db.commit()
+    return db_user

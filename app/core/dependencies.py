@@ -15,6 +15,12 @@ async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
     db: Session = Depends(get_db)
 ):
+    '''
+    获取当前用户
+    :param credentials:
+    :param db:
+    :return:
+    '''
     # 1. 从 Authorization Header 获取 Token
     token = credentials.credentials
 
