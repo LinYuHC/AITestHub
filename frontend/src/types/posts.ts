@@ -14,6 +14,23 @@ export interface PostListItem{
     author_id: number;
 }
 
+export interface PostDetail {
+    id: number;
+    // 标题
+    title: string;
+    // 摘要
+    summary: string;
+    // 分类
+    category_id: number;
+    // 封面图
+    cover_image?: string;
+    // 阅读量
+    views_count: number;
+    // 作者
+    author_id: number;
+    // 内容
+    content: string;
+}
 export interface PostsListData {
   total: number
   items: PostListItem[]
