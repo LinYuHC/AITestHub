@@ -30,7 +30,9 @@ def get_posts_list(db: Session, title: str | None = None, page: int = 1, page_si
         .limit(page_size)
         .all()
     )
-    return items
+    # 统计total
+    total = query.count()
+    return items, total
 
 def get_posts_details(db: Session, posts_id: int):
     '''

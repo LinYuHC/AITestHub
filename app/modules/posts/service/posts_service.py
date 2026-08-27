@@ -46,13 +46,13 @@ def get_posts_list_service(db: Session, page: int, page_size: int, title: str | 
     :param title:
     :return:
     '''
-    posts_all = posts_repository.get_posts_list(db, title=title, page=page, page_size=page_size)
+    posts_all, total = posts_repository.get_posts_list(db, title=title, page=page, page_size=page_size)
     if posts_all:
         # 将查询结果转换为 Pydantic 模型列表
         posts_list_out = [PostsListOut.model_validate(post) for post in posts_all]
         # 包装查询结果
         posts_list_data = PostsListData(
-            total=len(posts_list_out),
+            total=total,
             page=page,
             page_size=page_size,
             items=posts_list_out
