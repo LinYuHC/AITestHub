@@ -8,8 +8,8 @@ xios.create()表示创建一个axios实例，并统一指定后端地址，方�
 const BASE_URL = 'http://81.71.136.66:8000'
 const local_BASE_URL = 'http://127.0.0.1:8000'
 const request = axios.create({
-  baseURL: BASE_URL,
-  // baseURL: local_BASE_URL,
+  // baseURL: BASE_URL,
+  baseURL: local_BASE_URL,
   timeout: 5000
 })
 

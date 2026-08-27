@@ -4,7 +4,7 @@ import type {PostDetail, PostsListData, PostListItem, ResponseModel} from "../ty
 export function getPostsList(
   title?: string,
   page = 1,
-  pageSize = 10
+  pageSize = 1
 ) {
   //   调用博客列表接口
   return request.get<ResponseModel<PostsListData>>(
