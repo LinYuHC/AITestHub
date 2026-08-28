@@ -2,10 +2,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 // 导入博客列表页面
-import BlogList from '../views/BlogList.vue'
+import BlogList from '../views/blog/BlogList.vue'
 
 // 导入博客详情页面
-import BlogDetail from '../views/BlogDetail.vue'
+import BlogDetail from '../views/blog/BlogDetail.vue'
+// 导入登录页面
+import Login from '../views/user/login.vue'
+// 导入创建blog页面
+import BlogCreate from '../views/blog/BlogCreate.vue'
 
 
 // 创建 Router 实例
@@ -53,6 +57,17 @@ const router = createRouter({
       path: '/blog/:id',
       name: 'BlogDetail',
       component: BlogDetail
+    },
+
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
+    },
+    {
+      path: '/blogCreate',
+      name: 'BlogCreate',
+      component: BlogCreate
     }
 
   ]

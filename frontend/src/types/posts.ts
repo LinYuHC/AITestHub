@@ -13,7 +13,25 @@ export interface PostListItem{
     // 作者
     author_id: number;
 }
-
+export interface CreatePostRequest {
+    // 创建博客数据模型
+    // 标题
+    title: string;
+    // 摘要
+    summary: string;
+    // 内容
+    content: string;
+    // 状态：1 - 已发布，2 - 草稿 3删除
+    status: number;
+    // 分类ID，可选
+    category_id?: number;
+    // 封面图,可选
+    cover_image?: string;
+    // 是否允许评论，默认true
+    allow_comment: boolean;
+    // 是否置顶,默认false
+    is_top: boolean;
+}
 export interface PostDetail {
     id: number;
     // 标题

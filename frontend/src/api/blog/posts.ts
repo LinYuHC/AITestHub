@@ -1,5 +1,5 @@
-import request from "./request.ts";
-import type {PostDetail, PostsListData, PostListItem, ResponseModel} from "../types/posts.ts";
+import request from "../request.ts";
+import type {PostDetail, PostsListData, ResponseModel, CreatePostRequest} from "../../types/posts.ts";
 
 export function getPostsList(
   title?: string,
@@ -28,5 +28,13 @@ export function getPostDetail(posts_id: number) {
             posts_id
         }
     }
+  )
+}
+
+export function createPost(data: CreatePostRequest) {
+  //   调用创建博客接口
+  return request.post<ResponseModel<null>>(
+    '/api/v1/posts/create',
+    data
   )
 }

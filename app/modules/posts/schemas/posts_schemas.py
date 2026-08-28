@@ -45,7 +45,7 @@ class PostsListOut(BaseModel):
     title: str
     summary: str
     views_count: int
-    category_id: int
+    category_id: int | None = None
     cover_image: str | None = None
     author_id: int
 

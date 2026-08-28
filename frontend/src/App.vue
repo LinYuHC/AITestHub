@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BlogList from './views/BlogList.vue'
+import BlogList from './views/blog/BlogList.vue'
 
 </script>
 <template>
