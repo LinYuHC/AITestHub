@@ -2,32 +2,83 @@ name: Deploy to Linux Server
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Deploy to Server
         uses: appleboy/ssh-action@v1.0.3
+
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT }}
+
           script: |
-            cd ${{ secrets.DEPLOY_PATH }}
 
-            # 如果不是 git 仓库，先克隆
-            if [ ! -d .git ]; then
-              git clone git@github.com:LinYuHC/AITestHub.git ${{ secrets.DEPLOY_PATH }}
-            else
-              git pull origin master
-            fi
-            
-             # 安装/更新依赖
-            pip3 install --upgrade pip
-            pip3 install -r requirements.txt
+            # ==================================================
+            # 1. 任意一步失败，立即终止部署
+            # ==================================================
+            set -e
 
-            echo "部署完成于 $(date)"
+
+            # ==================================================
+            # 2. 项目目录
+            # ==================================================
+            DEPLOY_PATH="/home/www/AITestHub"
+
+
+            echo "========================================"
+            echo "开始部署 AITestHub"
+            echo "========================================"
+
+
+            # ==================================================
+            # 3. 进入项目目录
+            # ==================================================
+            cd "${DEPLOY_PATH}"
+
+
+            # ==================================================
+            # 4. 更新代码
+            # ==================================================
+            git pull origin master
+
+
+            # ==================================================
+            # 5. 使用项目自己的 Python 虚拟环境安装依赖
+            # ==================================================
+            "${DEPLOY_PATH}/venv/bin/python" \
+              -m pip install -r requirements.txt
+
+
+            # ==================================================
+            # 6. 检查依赖是否存在冲突
+            # ==================================================
+            "${DEPLOY_PATH}/venv/bin/python" \
+              -m pip check
+
+
+            # ==================================================
+            # 7. 重启 FastAPI
+            # ==================================================
+            echo "开始重启 AITestHub"
+
+            sudo systemctl restart aitesthub
+
+
+            # ==================================================
+            # 8. 检查 systemd 服务状态
+            # ==================================================
+            sudo systemctl is-active --quiet aitesthub
+
+
+            echo "========================================"
+            echo "AITestHub 部署成功"
+            echo "时间：$(date)"
+            echo "========================================"
