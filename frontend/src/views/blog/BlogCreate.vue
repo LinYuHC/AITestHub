@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import {ref} from 'vue'
+import {ref, reactive} from 'vue'
 // 导入模型
 import type {CreatePostRequest} from '../../types/posts.ts'
 // 导入接口
 import {createPost} from '../../api/blog/posts.ts'
+// 导入自定义编辑器组件
+import MarkdownEditor from "../../components/MarkdownEditor.vue";
+// 导入封面图片上传组件
+import CoverImageUploader from "../../components/CoverImageUploader.vue";
 
-
-  const createPostData : CreatePostRequest = {
+  const createPostData =reactive<CreatePostRequest> ({
   title: '',
   summary: '',
   content: '',
@@ -15,7 +18,7 @@ import {createPost} from '../../api/blog/posts.ts'
   cover_image: '',
   allow_comment: true,
   is_top: false
-}
+})
 
 const create_Post = async () => {
 
@@ -54,12 +57,11 @@ const create_Post = async () => {
         <label for="summary" class="form-label">摘要</label>
         <input type="text" id="summary" v-model="createPostData.summary" required class="form-input" placeholder="简短描述文章内容...">
       </div>
-
       <!-- 正文（支持 HTML） -->
       <div class="form-group">
         <label for="content" class="form-label">正文（支持 HTML 标签）</label>
-        <textarea id="content" v-model="createPostData.content" required class="form-textarea" placeholder="可直接粘贴带 HTML 的笔记源码，如 &lt;h1&gt;标题&lt;/h1&gt;&lt;p&gt;段落...&lt;/p&gt;"></textarea>
-        <span class="hint">💡 支持所有 HTML 标签，详情页将自动渲染样式</span>
+        <MarkdownEditor id="content" v-model="createPostData.content" required class="form-textarea" placeholder="可直接粘贴带 HTML 的笔记源码，如 &lt;h1&gt;标题&lt;/h1&gt;&lt;p&gt;段落...&lt;/p&gt;"></MarkdownEditor>
+<!--        <span class="hint">💡 支持所有 HTML 标签，详情页将自动渲染样式</span>-->
       </div>
 
       <!-- 分类 ID -->
@@ -71,7 +73,7 @@ const create_Post = async () => {
       <!-- 封面图 URL -->
       <div class="form-group">
         <label for="cover_image" class="form-label">封面图 URL</label>
-        <input type="text" id="cover_image" v-model="createPostData.cover_image" required class="form-input" placeholder="https://example.com/cover.jpg">
+        <CoverImageUploader type="text" id="cover_image" v-model="createPostData.cover_image" required class="form-input" placeholder="https://example.com/cover.jpg"/>
       </div>
 
       <!-- 复选框区域（允许评论 & 置顶） -->
