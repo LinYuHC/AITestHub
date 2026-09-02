@@ -10,6 +10,10 @@ import BlogDetail from '../views/blog/BlogDetail.vue'
 import Login from '../views/user/login.vue'
 // 导入创建blog页面
 import BlogCreate from '../views/blog/BlogCreate.vue'
+// 导入Markdown编辑器组件
+import MarkdownEditor from '../components/MarkdownEditor.vue'
+// 导入封面图上传组件
+import CoverImageUploader from '../components/CoverImageUploader.vue'
 
 
 // 创建 Router 实例
@@ -68,6 +72,16 @@ const router = createRouter({
       path: '/blogCreate',
       name: 'BlogCreate',
       component: BlogCreate
+    },
+    {
+      path: '/MarkdownEditor',
+      name: 'MarkdownEditor',
+      component: MarkdownEditor
+    },
+    {
+      path: '/CoverImageUploader',
+      name: 'CoverImageUploader',
+      component: CoverImageUploader
     }
 
   ]
