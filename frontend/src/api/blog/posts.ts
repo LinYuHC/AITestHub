@@ -38,3 +38,14 @@ export function createPost(data: CreatePostRequest) {
     data
   )
 }
+
+export function uploadImage(file: File) {
+  const formData = new FormData()
+
+  formData.append('file', file)
+
+  return request.post(
+    '/api/v1/upload/',
+    formData
+  )
+}
