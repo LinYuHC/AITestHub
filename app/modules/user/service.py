@@ -75,15 +75,18 @@ def login_user(db: Session, username: str, password: str):
     else:
         return ResponseError(message="User Or Password is incorrect")
 
-def logout_user(db: Session, user_id: int):
+def logout_user(jti: str):
     """
     登出账号Service
-    :param db: 数据库会话
-    :param user_id: 用户ID
+    :param jti: 令牌ID
     :return: 登出结果
     """
-    pass
-
+    if jti is None:
+        return ResponseError(message="令牌ID不存在")
+    get_redis().delete(f"user:token:{jti}")
+    return ResponseModel(
+        data="登出成功"
+    )
 def edit_user(db: Session, user_id: int, user: EditUser):
     # 将 Pydantic 模型转换为字典，exclude_unset=True 确保只更新前端传了值的字段
     user = user.model_dump(exclude_unset=True)
@@ -95,4 +98,15 @@ def edit_user(db: Session, user_id: int, user: EditUser):
     db_user = update_user(db, user_id, user)
     return ResponseModel(
         data=db_user
+    )
+
+def get_user_info(db: Session, user_id: int):
+    # 根据id查询用户信息
+    db_user = get_user_by_id(db, user_id)
+    # 判断是否存在用户
+    if db_user is None:
+        return ResponseError(message="User not found")
+    user_info = UserOut.model_validate(db_user)
+    return ResponseModel(
+        data=user_info
     )
