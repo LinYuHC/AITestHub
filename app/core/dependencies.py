@@ -5,6 +5,7 @@ from app.utils.pyjwt_tool import decode_token
 from app.db.redis_db import get_redis
 from app.modules.user.repository import get_user_by_id
 from app.db.database import get_db
+from app.modules.user.schemas import CurrentUser
 
 
 # HTTPBearer负责从请求头中提取 Bearer Token
@@ -62,4 +63,5 @@ async def get_current_user(
         )
 
     # 暂时直接返回 user_id
-    return user_id
+    # return user_id, session
+    return CurrentUser(user_id=user_id, jti=jti)
