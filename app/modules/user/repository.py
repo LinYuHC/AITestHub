@@ -12,14 +12,15 @@ def get_user_by_username(db:Session,username:str):
     :return:
     '''
     return db.query(User).filter(User.username == username).first()
-def get_user_by_id(db:Session,id:int):
+def get_user_by_id(db:Session,user_id:int):
     '''
     根据用户ID获取用户
+    :param user_id:
     :param db:
     :param id:
     :return:
     '''
-    return db.query(User).filter(User.id == id).first()
+    return db.query(User).filter(User.id == user_id).first()
 def create_user(db:Session, user:User):
     '''
     创建用户
@@ -48,6 +49,11 @@ def update_user(db:Session,user_id: int,user:dict):
     :param user: 用户信息
     :return: None
     '''
-    db_user = db.query(User).filter(User.id == user_id).update(user)
+    # 更新用户信息
+    db.query(User).filter(User.id == user_id).update(user)
+    # 提交
     db.commit()
-    return db_user
+    # 重新查询用户信息
+    db_user_info = get_user_by_id(db,user_id)
+    # 返回修改后的用户信息
+    return db_user_info
