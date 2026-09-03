@@ -88,6 +88,13 @@ def logout_user(jti: str):
         data="登出成功"
     )
 def edit_user(db: Session, user_id: int, user: EditUser):
+    """
+    编辑用户Service
+    :param db: 数据库会话
+    :param user_id: 用户ID
+    :param user: 用户信息
+    :return: 编辑结果
+    """
     # 将 Pydantic 模型转换为字典，exclude_unset=True 确保只更新前端传了值的字段
     user = user.model_dump(exclude_unset=True)
     # 查询当前用户id是否存在
@@ -96,11 +103,18 @@ def edit_user(db: Session, user_id: int, user: EditUser):
         return ResponseError(message="User not found")
 
     db_user = update_user(db, user_id, user)
+    user_out = UserOut.model_validate(db_user)
     return ResponseModel(
-        data=db_user
+        data=user_out
     )
 
 def get_user_info(db: Session, user_id: int):
+    """
+    获取用户信息Service
+    :param db: 数据库会话
+    :param user_id: 用户ID
+    :return: 用户信息
+    """
     # 根据id查询用户信息
     db_user = get_user_by_id(db, user_id)
     # 判断是否存在用户
