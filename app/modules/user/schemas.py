@@ -39,3 +39,12 @@ class UserLogin(BaseModel):
 
     class Config:
         from_attributes = True
+
+class CurrentUser(BaseModel):
+    '''
+    当前用户模型
+    '''
+    user_id: int
+    jti: str
+    class Config:
+        from_attributes = True
