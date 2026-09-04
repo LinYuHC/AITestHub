@@ -7,6 +7,7 @@ xios.create()表示创建一个axios实例，并统一指定后端地址，方�
 */
 const BASE_URL = 'http://81.71.136.66:8000'
 const local_BASE_URL = 'http://127.0.0.1:8000'
+// 创建axios实例
 const request = axios.create({
   // baseURL: import.meta.env.VITE_API_BASE_URL,
   baseURL: BASE_URL,
