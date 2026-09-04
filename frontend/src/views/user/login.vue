@@ -3,6 +3,7 @@ import {login} from "../../api/user/user.ts";
 import {ref} from "vue";
 // 获取路由对象
 import {useRouter} from "vue-router";
+import {useUserStore} from "../../store/user.ts";
 
 const username = ref('');
 const password = ref('');
@@ -21,10 +22,14 @@ const loginuser = async () => {
   if (response.data.code === 200){
     console.log('登录成功')
     // 提取Token
-  const token = response.data.data.access_token;
+  const token = response.data.data.access_token
+    // 提取用户信息
+  const userInfo = response.data.data.user_info
   // 保存Token到localStorage,持久化到浏览器
-  localStorage.setItem('access_token', token);
-  // 跳转到首页
+  localStorage.setItem('access_token', token)
+  // 保存用户信息到store
+  useUserStore().setUserInfo(userInfo)
+  // 登录成功==>跳转到首页
   await router.push('/blog')
   console.log('response==',response)
   }else {
