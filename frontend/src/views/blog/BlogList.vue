@@ -5,6 +5,13 @@ import { onMounted, ref } from 'vue'
 import { getPostsList, getPostDetail } from '../../api/blog/posts.ts'
 // 导入数据类型定义
 import type { PostListItem, PostDetail } from '../../types/posts.ts'
+import { useUserStore } from '../../store/user.ts'
+import {logout} from '../../api/user/user.ts'
+
+const userStore = useUserStore()
+
+console.log('当前用户：', userStore.userInfo)
+console.log('是否登录：', userStore.isLogin)
 
 // 定义响应式数据
 const posts = ref<PostListItem[]>([])
@@ -52,6 +59,7 @@ const loadPosts = async () => {
     loading.value = false
   }
 }
+// 定义加载博客详情的方法
 const loadPostDetail = async () => {
   loading.value = true
   errorMessage.value = ''
@@ -72,7 +80,6 @@ const loadPostDetail = async () => {
   }
 }
 
-
 // 分页
 const prevPage = () => {
   if (currentPage.value > 1) {
@@ -85,6 +92,25 @@ const nextPage = () => {
     currentPage.value++
     loadPosts()
   }
+}
+
+// 退出登录
+const logout_user = async () => {
+    try {
+    // 调用退出登录接口
+    const response = await logout()
+    console.log('退出登录成功',response)
+    // 清空localStorage中的Token
+    localStorage.removeItem('access_token')
+    // 清空用户信息
+    useUserStore().clearUserInfo()
+  } catch (error) {
+    console.error('退出登录失败：', error)
+    errorMessage.value = '退出登录失败'
+  }
+
+
+
 }
 
 // 在组件挂载时加载博客列表
@@ -111,8 +137,37 @@ onMounted(() => {
         &lt;AITestHub_Blog /&gt;
       </h1>
 
-      <!-- login 链接 -->
-      <router-link to="/login" class="nav-link login-link">login</router-link>
+      <!-- v-if="!userStore.isLogin"表示：判断当前用户是否为登录状态，如果不是则显示登录按钮，反之显示头像-->
+      <div class="nav-link login-link" v-if="!userStore.isLogin">
+        <!-- login 链接 -->
+        <router-link to="/login"  >login</router-link>
+      </div>
+      <div class="nav-link login-link" v-else>
+        <button @click="logout_user" >logout</button>
+        <!-- 用户头像 -->
+        <img
+            v-if="userStore.userInfo?.avatar"
+            :src="userStore.userInfo.avatar"
+            alt="用户头像"
+            class="user-avatar"
+        />
+
+        <!-- 没有头像时显示默认头像 -->
+        <div
+            v-else
+            class="default-avatar"
+        >
+            {{ userStore.userInfo?.nickname?.charAt(0).toUpperCase() }}
+        </div>
+
+        <!-- 用户名 -->
+        <span class="username">
+            {{ userStore.userInfo?.nickname || userStore.userInfo?.username }}
+        </span>
+      </div>
+
+
+
       <!-- 添加隐藏的换行 -->
       <br class="hide-br">
       <!-- blogCreate 链接 -->
