@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, reactive} from 'vue'
+import {reactive} from 'vue'
 // 导入模型
 import type {CreatePostRequest} from '../../types/posts.ts'
 // 导入接口

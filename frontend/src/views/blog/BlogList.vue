@@ -71,7 +71,7 @@ const loadPostDetail = async () => {
     console.log('博客详情-后端业务数据：', response1.data)
     // console.log('博客数据：', response1.data.data.items)
 
-    postsDateil.value = response1.data.data
+    postsDateil.value = [response1.data.data]
   } catch (error) {
     console.error('获取博客详情失败：', error)
     errorMessage.value = '获取博客详情失败'
