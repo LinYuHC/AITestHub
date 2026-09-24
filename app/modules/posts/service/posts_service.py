@@ -65,6 +65,12 @@ def get_posts_list_service(db: Session, page: int, page_size: int, title: str | 
         return res
 
 def get_posts_details(db: Session, posts_id: int):
+    '''
+    获取博客详情
+    :param db:
+    :param posts_id:
+    :return:
+    '''
     posts_details = posts_repository.get_posts_details(db, posts_id)
     if posts_details:
         print('存在')
@@ -74,3 +80,21 @@ def get_posts_details(db: Session, posts_id: int):
     else:
         res = ResponseModel(code=404, message="博客不存在")
         return res
+
+def del_posts_details(db: Session, posts_id: int, author_id: int):
+    res = posts_repository.del_posts(db, posts_id=posts_id, author_id=author_id)
+    if res:
+        return ResponseModel(message="删除成功")
+    else:
+        return ResponseModel(code=404, message="删除失败")
+
+    # 查询文章是否存在
+    # res = posts_repository.get_posts_details(db, posts_id)
+    # # 判断文章是否存在
+    # if res:
+    #     # 删除文章
+    #     posts_repository.del_posts(db, posts_id)
+    #     return ResponseModel(message="删除成功")
+    # else:
+    #     print('不存在')
+    #     return ResponseModel(code=404, message="删除失败，博客不存在")

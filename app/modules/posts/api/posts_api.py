@@ -39,3 +39,9 @@ def get_posts_details(
         posts_id: int,
         db:Session = Depends(get_db)):
     return posts_service.get_posts_details(db,posts_id)
+
+@router.delete("/delete")
+def del_posts_details(posts_id:int, db: Session = Depends(get_db), current_user: CurrentUser = Depends(get_current_user)):
+    logger.info(f'current_user==={current_user}')
+
+    return posts_service.del_posts_details(db,posts_id, current_user.user_id)

@@ -45,3 +45,19 @@ def get_posts_details(db: Session, posts_id: int):
     print(f'query==: {query}')
     # print(f'query==: {query.id}')
     return query
+
+def del_posts(db: Session, posts_id: int, author_id: int):
+    '''
+    删除博客
+    :param author_id:
+    :param db:
+    :param posts_id:
+    :return: 删除信息
+    '''
+    query = get_posts_details(db, posts_id)
+    if query and query.author_id == author_id:
+        db.delete(query)
+        db.commit()
+        return True
+    else:
+        return False
