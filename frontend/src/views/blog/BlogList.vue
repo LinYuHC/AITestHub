@@ -2,7 +2,7 @@
 // 导入Vue相关函数
 import { onMounted, ref } from 'vue'
 // 导入接口调用方法
-import { getPostsList, getPostDetail } from '../../api/blog/posts.ts'
+import { getPostsList, getPostDetail, deletePost } from '../../api/blog/posts.ts'
 // 导入数据类型定义
 import type { PostListItem, PostDetail } from '../../types/posts.ts'
 import { useUserStore } from '../../store/user.ts'
@@ -50,6 +50,9 @@ const loadPosts = async () => {
     console.log('博客数据：', response.data.data.items)
     console.log('总数量：', response.data.data.total)
     console.log('pageSize：', pageSize)
+    for (let i = 0; i < posts.value.length; i++) {
+      console.log('博客id：', response.data.data.items[i].id)
+    }
 
     posts.value = response.data.data.items
   } catch (error) {
@@ -91,6 +94,26 @@ const nextPage = () => {
   if (currentPage.value < Math.ceil(total.value / pageSize)) {
     currentPage.value++
     loadPosts()
+  }
+}
+
+// 根据id删除博客
+const deletePostById = async (id: number) => {
+  try {
+    const response = await deletePost(id)
+    if (response.data.code === 200) {
+      // 删除成功
+      console.log('删除成功')
+      // 删除成功后重新加载博客列表
+    await loadPosts()
+    } else {
+      // 删除失败
+      console.log('删除失败')
+    }
+
+  } catch (error) {
+    console.error('删除博客失败：', error)
+    errorMessage.value = '删除博客失败'
   }
 }
 
@@ -202,6 +225,9 @@ onMounted(() => {
         <div class="card-footer">
           <span class="views-count">阅读量:{{ post.views_count }}</span>
           <router-link class="detail-link" :to="`/blog/${post.id}`">[ 详情 ]</router-link>
+<!--          <click class="detail-link" :to="`/blog/${post.id}`">[ 删除 ]</click>-->
+<!--          删除按钮-->
+          <button class="delete-btn" @click="deletePostById(post.id)">[ 删除 ]></button>
         </div>
       </div>
     </div>

@@ -49,3 +49,15 @@ export function uploadImage(file: File) {
     formData
   )
 }
+
+export function deletePost(posts_id: number){
+    //   调用删除博客接口
+    return request.delete<ResponseModel<null>>(
+        `/api/v1/posts/delete`,
+        {
+            params: {
+                posts_id
+            }
+        }
+    )
+}
